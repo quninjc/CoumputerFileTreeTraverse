@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>树遍历可视化工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>树遍历可视化工具</h1>
+        
+        <div class="controls">
+            <div class="tree-type">
+                <h2>选择树类型</h2>
+                <button id="randomTree">随机生成普通树</button>
+                <button id="randomBinaryTree">随机生成二叉树</button>
+            </div>
+            
+            <div class="traversal-type">
+                <h2>选择遍历方式</h2>
+                <div class="traversal-options">
+                    <button id="preOrder" class="traversal-btn">先序遍历</button>
+                    <button id="inOrder" class="traversal-btn">中序遍历</button>
+                    <button id="postOrder" class="traversal-btn">后序遍历</button>
+                    <button id="levelOrder" class="traversal-btn">层序遍历</button>
+                </div>
+            </div>
+            
+            <div class="animation-controls">
+                <button id="nextStep" disabled>下一步</button>
+                <button id="playPause" disabled>自动播放</button>
+                <button id="reset" disabled>重置</button>
+                <div class="speed-control">
+                    <label for="speed">速度:</label>
+                    <input type="range" id="speed" min="1" max="10" value="5">
+                </div>
+            </div>
+        </div>
+        
+        <div class="visualization">
+            <div class="tree-container" id="treeContainer"></div>
+            <div class="traversal-info">
+                <h3>遍历顺序:</h3>
+                <div id="traversalSequence"></div>
+                <div id="currentStep"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
