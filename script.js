@@ -458,10 +458,18 @@ class TreeVisualizer {
         // 清除所有高亮
         this.clearHighlights();
         
-        // 高亮当前节点
-        const currentStep = this.traversalSteps[this.currentStepIndex];
-        if (currentStep && currentStep.node.element) {
-            currentStep.node.element.classList.add('highlighted');
+        // 标记所有已访问的节点
+        for (let i = 0; i <= this.currentStepIndex; i++) {
+            const step = this.traversalSteps[i];
+            if (step && step.node.element) {
+                if (i === this.currentStepIndex) {
+                    // 当前节点高亮并放大
+                    step.node.element.classList.add('highlighted');
+                } else {
+                    // 已访问节点标记为已访问
+                    step.node.element.classList.add('visited');
+                }
+            }
         }
         
         // 更新显示
@@ -490,7 +498,7 @@ class TreeVisualizer {
             stepElement.style.backgroundColor = '#e0e0e0';
             
             if (index <= this.currentStepIndex) {
-                stepElement.style.backgroundColor = '#2196F3';
+                stepElement.style.backgroundColor = '#4CAF50'; // 绿色
                 stepElement.style.color = 'white';
             }
             

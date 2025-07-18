@@ -84,7 +84,7 @@
         }
         
         .traversal-btn.active {
-            background-color: #2196F3;
+            background-color: #4CAF50;
             color: white;
         }
         
@@ -140,13 +140,35 @@
             background-color: #f9f9f9;
             border-radius: 6px;
             margin-top: 15px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .traversal-info h3 {
+            margin-right: 15px;
+            white-space: nowrap;
+        }
+        
+        #traversalSequence {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            flex: 1;
+            margin-right: 15px;
+        }
+        
+        #currentStep {
+            margin-left: auto;
+            color: #4CAF50;
+            font-weight: bold;
         }
         
         /* 树节点样式 */
         .node {
             width: 40px;
             height: 40px;
-            background-color: #4CAF50;
+            background-color: #999999; /* 灰色 */
             color: white;
             border-radius: 50%;
             display: flex;
@@ -158,13 +180,13 @@
         }
         
         .node.highlighted {
-            background-color: #FF5722;
+            background-color: #4CAF50; /* 深绿色 */
             transform: scale(1.2);
-            box-shadow: 0 0 10px rgba(255, 87, 34, 0.7);
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
         }
         
         .node.visited {
-            background-color: #2196F3;
+            background-color: #8BC34A; /* 浅绿色 */
         }
         
         /* 连接线样式 */
