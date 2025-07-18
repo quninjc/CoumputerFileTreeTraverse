@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二叉树遍历可视化工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            align-items: center;
+        }
+        
+        #randomBinaryTree {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+        
+        #randomBinaryTree:hover {
+            background-color: #45a049;
+        }
+        
+        .traversal-group {
+            display: flex;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        
+        .traversal-btn {
+            padding: 10px 15px;
+            background-color: #f1f1f1;
+            color: #333;
+            border: none;
+            cursor: pointer;
+            margin: 0;
+            border-right: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+        
+        .traversal-btn:last-child {
+            border-right: none;
+        }
+        
+        .traversal-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .traversal-btn.active {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .animation-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+        
+        .animation-controls button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .animation-controls button:hover {
+            background-color: #45a049;
+        }
+        
+        .speed-control {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        
+        .speed-control label {
+            margin-right: 10px;
+        }
+        
+        .tree-container {
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            position: relative;
+            overflow: auto;
+            padding: 40px;
+        }
+        
+        .traversal-info {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        
+        /* 树节点样式 */
+        .node {
+            width: 40px;
+            height: 40px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            transition: all 0.3s;
+            z-index: 2;
+        }
+        
+        .node.highlighted {
+            background-color: #FF5722;
+            transform: scale(1.2);
+            box-shadow: 0 0 10px rgba(255, 87, 34, 0.7);
+        }
+        
+        .node.visited {
+            background-color: #2196F3;
+        }
+        
+        /* 连接线样式 */
+        .edge {
+            position: absolute;
+            background-color: #999;
+            height: 2px;
+            transform-origin: 0 0;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>二叉树遍历可视化工具</h1>
+
+        <div class="button-row">
+            <button id="randomBinaryTree">随机生成二叉树</button>
+            <div class="traversal-group">
+                <button id="preOrder" class="traversal-btn">先序遍历</button>
+                <button id="inOrder" class="traversal-btn">中序遍历</button>
+                <button id="postOrder" class="traversal-btn">后序遍历</button>
+                <button id="levelOrder" class="traversal-btn">层序遍历</button>
+            </div>
+        </div>
+
+        <div class="animation-controls">
+            <button id="nextStep" disabled>下一步</button>
+            <button id="playPause" disabled>自动播放</button>
+            <button id="reset" disabled>重置</button>
+            <div class="speed-control">
+                <label for="speed">速度:</label>
+                <input type="range" id="speed" min="1" max="10" value="5">
+            </div>
+        </div>
+
+        <div class="tree-container" id="treeContainer"></div>
+        
+        <div class="traversal-info">
+            <h3>遍历顺序:</h3>
+            <div id="traversalSequence"></div>
+            <div id="currentStep"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
