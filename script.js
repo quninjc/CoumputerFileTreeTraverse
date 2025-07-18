@@ -262,17 +262,18 @@ class TreeVisualizer {
         // 计算树的深度
         const depth = this.getTreeDepth(this.tree);
         
-        // 根据树的深度和当前层级调整水平间距
-        // 较浅的层级使用较大的间距，较深的层级使用较小的间距
-        const baseSpacing = 120; // 基础间距
-        const horizontalSpacing = baseSpacing / Math.pow(1.5, level); // 随层级指数减小
+        // 根据树的深度和当前层级调整水平间距和垂直间距
+        // 使布局更加紧凑
+        const baseSpacing = 80; // 减小基础间距
+        const horizontalSpacing = baseSpacing / Math.pow(1.4, level); // 随层级指数减小
+        const verticalSpacing = 45; // 减小垂直间距
         
         // 为左右子树分配位置
         if (node.left) {
-            this.calculateBinaryTreeLayout(node.left, x - horizontalSpacing, y + 60, level + 1);
+            this.calculateBinaryTreeLayout(node.left, x - horizontalSpacing, y + verticalSpacing, level + 1);
         }
         if (node.right) {
-            this.calculateBinaryTreeLayout(node.right, x + horizontalSpacing, y + 60, level + 1);
+            this.calculateBinaryTreeLayout(node.right, x + horizontalSpacing, y + verticalSpacing, level + 1);
         }
     }
     
@@ -313,8 +314,8 @@ class TreeVisualizer {
         const nodeElement = document.createElement('div');
         nodeElement.className = 'node';
         nodeElement.textContent = node.value;
-        nodeElement.style.left = (node.x - 20) + 'px'; // 减去节点半径以居中
-        nodeElement.style.top = (node.y - 20) + 'px';  // 减去节点半径以居中
+        nodeElement.style.left = (node.x - 15) + 'px'; // 减去节点半径以居中 (30px/2 = 15px)
+        nodeElement.style.top = (node.y - 15) + 'px';  // 减去节点半径以居中 (30px/2 = 15px)
         
         this.treeContainer.appendChild(nodeElement);
         node.element = nodeElement;
