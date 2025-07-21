@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件系统前序遍历动画</title>
+    <link rel="stylesheet" href="styles.css?v=3">
+</head>
+
+<body>
+    <div class="container">
+        <h1>文件系统前序遍历动画</h1>
+
+        <div class="controls">
+            <div class="button-row">
+                <button id="preOrder" class="traversal-btn">前序遍历（复制文件夹）</button>
+            </div>
+
+            <div class="animation-controls">
+                <button id="nextStep" disabled>下一步</button>
+                <button id="playPause" disabled>自动播放</button>
+                <button id="reset" disabled>重置</button>
+                <div class="speed-control">
+                    <label for="speed">速度:</label>
+                    <input type="range" id="speed" min="1" max="10" value="5">
+                </div>
+            </div>
+        </div>
+
+        <div class="visualization">
+            <div class="tree-container" id="treeContainer"></div>
+            <div class="traversal-info">
+                <h3>遍历顺序:</h3>
+                <div id="traversalSequence"></div>
+                <div id="currentStep"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js?v=3"></script>
+</body>
+
+</html>

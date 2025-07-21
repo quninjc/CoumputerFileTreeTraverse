@@ -204,3 +204,69 @@ button:disabled {
         margin-bottom: 5px;
     }
 }
+
+.file-node.folder {
+    background-color: #ffd93d;
+    color: #2d3436;
+    border-radius: 8px;
+    border: 2px solid #f39c12;
+}
+.file-node.system {
+    background-color: #e17055;
+    color: #fff;
+    border-radius: 8px;
+    border: 2px solid #d63031;
+}
+.file-node.exe {
+    background-color: #fd79a8;
+    color: #fff;
+    border-radius: 8px;
+    border: 2px solid #e84393;
+}
+.file-node.doc {
+    background-color: #55a3ff;
+    color: #fff;
+    border-radius: 8px;
+    border: 2px solid #2d3436;
+}
+.file-node.other {
+    background-color: #74b9ff;
+    color: #fff;
+    border-radius: 8px;
+    border: 2px solid #0984e3;
+}
+.file-label {
+    margin: 0;
+    font-size: 11px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    line-height: 1.1;
+    word-break: break-all;
+}
+.file-icon {
+    display: block;
+    font-size: 20px;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 0px;
+}
+.node.file-node {
+    min-width: 44px;
+    width: 56px;
+    max-width: 80px;
+    height: 48px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    position: absolute;
+    word-break: break-all;
+    white-space: normal;
+    text-align: center;
+}

@@ -1,0 +1,221 @@
+<svg width="900" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .folder-box {
+        fill: #ffd93d;
+        stroke: #f39c12;
+        stroke-width: 1.5;
+        rx: 4;
+      }
+      .file-box {
+        fill: #74b9ff;
+        stroke: #0984e3;
+        stroke-width: 1.5;
+        rx: 3;
+      }
+      .exe-file {
+        fill: #fd79a8;
+        stroke: #e84393;
+      }
+      .doc-file {
+        fill: #55a3ff;
+        stroke: #2d3436;
+      }
+      .system-folder {
+        fill: #e17055;
+        stroke: #d63031;
+      }
+      .root-folder {
+        fill: #00b894;
+        stroke: #00a085;
+      }
+      .node-text {
+        font-family: 'Consolas', 'Monaco', monospace;
+        font-size: 9px;
+        font-weight: bold;
+        text-anchor: middle;
+        dominant-baseline: middle;
+        fill: #2d3436;
+      }
+      .small-text {
+        font-size: 7px;
+        font-weight: normal;
+      }
+      .line {
+        stroke: #636e72;
+        stroke-width: 1.5;
+      }
+      .icon {
+        font-size: 10px;
+      }
+    </style>
+  </defs>
+  
+  <!-- 白色背景 -->
+  <rect width="100%" height="100%" fill="white"/>
+  
+  <!-- 连接线 -->
+  <!-- C盘 到主要文件夹 -->
+  <line x1="460" y1="70" x2="190" y2="120" class="line"/>
+  <line x1="460" y1="70" x2="460" y2="120" class="line"/>
+  <line x1="460" y1="70" x2="690" y2="120" class="line"/>
+  
+  <!-- Program Files 到子文件夹 -->
+  <line x1="190" y1="140" x2="110" y2="180" class="line"/>
+  <line x1="190" y1="140" x2="280" y2="180" class="line"/>
+  
+  <!-- Microsoft Office 到文件 -->
+  <line x1="110" y1="200" x2="70" y2="245" class="line"/>
+  <line x1="110" y1="200" x2="170" y2="245" class="line"/>
+  
+  <!-- Google Chrome 到文件 -->
+  <line x1="280" y1="200" x2="280" y2="245" class="line"/>
+  
+  <!-- Users 到张同学 -->
+  <line x1="460" y1="140" x2="460" y2="180" class="line"/>
+  
+  <!-- 张同学 到子文件夹 -->
+  <line x1="460" y1="200" x2="380" y2="245" class="line"/>
+  <line x1="460" y1="200" x2="520" y2="245" class="line"/>
+  
+  <!-- Documents 到文件 -->
+  <line x1="380" y1="265" x2="340" y2="310" class="line"/>
+  <line x1="380" y1="265" x2="420" y2="310" class="line"/>
+  
+  <!-- Desktop 到文件 -->
+  <line x1="520" y1="265" x2="520" y2="310" class="line"/>
+  
+  <!-- Windows 到 System32 -->
+  <line x1="690" y1="140" x2="690" y2="180" class="line"/>
+  
+  <!-- System32 到文件 -->
+  <line x1="690" y1="200" x2="690" y2="245" class="line"/>
+  
+  <!-- C盘 (根目录) -->
+  <rect x="425" y="50" width="70" height="35" class="folder-box root-folder"/>
+  <text x="460" y="58" class="node-text icon">💽</text>
+  <text x="460" y="67" class="node-text">C盘</text>
+  <text x="460" y="78" class="node-text small-text">(根目录)</text>
+  
+  <!-- 第一层文件夹 -->
+  <rect x="145" y="120" width="90" height="35" class="folder-box"/>
+  <text x="190" y="128" class="node-text icon">📁</text>
+  <text x="190" y="137" class="node-text">Program Files</text>
+  <text x="190" y="148" class="node-text small-text">(程序文件)</text>
+  
+  <rect x="425" y="120" width="70" height="35" class="folder-box"/>
+  <text x="460" y="128" class="node-text icon">👤</text>
+  <text x="460" y="137" class="node-text">Users</text>
+  <text x="460" y="148" class="node-text small-text">(用户)</text>
+  
+  <rect x="645" y="120" width="90" height="35" class="folder-box system-folder"/>
+  <text x="690" y="128" class="node-text icon">⚙️</text>
+  <text x="690" y="137" class="node-text">Windows</text>
+  <text x="690" y="148" class="node-text small-text">(系统)</text>
+  
+  <!-- Program Files 子文件夹 -->
+  <rect x="65" y="180" width="90" height="35" class="folder-box"/>
+  <text x="110" y="188" class="node-text icon">🏢</text>
+  <text x="110" y="197" class="node-text">MS Office</text>
+  <text x="110" y="208" class="node-text small-text">(办公软件)</text>
+  
+  <rect x="235" y="180" width="90" height="35" class="folder-box"/>
+  <text x="280" y="188" class="node-text icon">🌐</text>
+  <text x="280" y="197" class="node-text">Chrome</text>
+  <text x="280" y="208" class="node-text small-text">(浏览器)</text>
+  
+  <!-- Users 子文件夹 -->
+  <rect x="415" y="180" width="90" height="35" class="folder-box"/>
+  <text x="460" y="188" class="node-text icon">👨‍🎓</text>
+  <text x="460" y="197" class="node-text">张同学</text>
+  <text x="460" y="208" class="node-text small-text">(用户文件夹)</text>
+  
+  <!-- Windows 子文件夹 -->
+  <rect x="645" y="180" width="90" height="35" class="folder-box system-folder"/>
+  <text x="690" y="188" class="node-text icon">🔧</text>
+  <text x="690" y="197" class="node-text">System32</text>
+  <text x="690" y="208" class="node-text small-text">(系统核心)</text>
+  
+  <!-- 张同学的子文件夹 -->
+  <rect x="335" y="245" width="90" height="35" class="folder-box"/>
+  <text x="380" y="253" class="node-text icon">📄</text>
+  <text x="380" y="262" class="node-text">Documents</text>
+  <text x="380" y="273" class="node-text small-text">(文档)</text>
+  
+  <rect x="485" y="245" width="70" height="35" class="folder-box"/>
+  <text x="520" y="253" class="node-text icon">🖥️</text>
+  <text x="520" y="262" class="node-text">Desktop</text>
+  <text x="520" y="273" class="node-text small-text">(桌面)</text>
+  
+  <!-- 可执行文件 -->
+  <rect x="30" y="245" width="80" height="30" class="file-box exe-file"/>
+  <text x="70" y="252" class="node-text icon">📝</text>
+  <text x="70" y="260" class="node-text">Word.exe</text>
+  <text x="70" y="270" class="node-text small-text">(Word程序)</text>
+  
+  <rect x="130" y="245" width="80" height="30" class="file-box exe-file"/>
+  <text x="170" y="252" class="node-text icon">📊</text>
+  <text x="170" y="260" class="node-text">Excel.exe</text>
+  <text x="170" y="270" class="node-text small-text">(Excel程序)</text>
+  
+  <rect x="240" y="245" width="80" height="30" class="file-box exe-file"/>
+  <text x="280" y="252" class="node-text icon">🌐</text>
+  <text x="280" y="260" class="node-text">chrome.exe</text>
+  <text x="280" y="270" class="node-text small-text">(Chrome程序)</text>
+  
+  <rect x="650" y="245" width="80" height="30" class="file-box exe-file"/>
+  <text x="690" y="252" class="node-text icon">📝</text>
+  <text x="690" y="260" class="node-text">notepad.exe</text>
+  <text x="690" y="270" class="node-text small-text">(记事本)</text>
+  
+  <!-- 文档文件 -->
+  <rect x="300" y="310" width="80" height="30" class="file-box doc-file"/>
+  <text x="340" y="317" class="node-text icon">📄</text>
+  <text x="340" y="325" class="node-text">作业.docx</text>
+  <text x="340" y="335" class="node-text small-text">(Word文档)</text>
+  
+  <rect x="400" y="310" width="80" height="30" class="file-box doc-file"/>
+  <text x="440" y="317" class="node-text icon">📝</text>
+  <text x="440" y="325" class="node-text">笔记.txt</text>
+  <text x="440" y="335" class="node-text small-text">(文本文件)</text>
+  
+  <rect x="480" y="310" width="80" height="30" class="file-box"/>
+  <text x="520" y="317" class="node-text icon">🎮</text>
+  <text x="520" y="325" class="node-text">游戏.lnk</text>
+  <text x="520" y="335" class="node-text small-text">(快捷方式)</text>
+  
+  <!-- 图例 -->
+  <g transform="translate(30, 380)">
+    <text x="0" y="0" class="node-text" style="font-size: 12px; text-anchor: start;">💻 图例说明：</text>
+    
+    <rect x="0" y="15" width="20" height="15" class="folder-box root-folder"/>
+    <text x="25" y="26" class="node-text" style="font-size: 9px; text-anchor: start;">根目录</text>
+    
+    <rect x="80" y="15" width="20" height="15" class="folder-box"/>
+    <text x="105" y="26" class="node-text" style="font-size: 9px; text-anchor: start;">普通文件夹</text>
+    
+    <rect x="180" y="15" width="20" height="15" class="folder-box system-folder"/>
+    <text x="205" y="26" class="node-text" style="font-size: 9px; text-anchor: start;">系统文件夹</text>
+    
+    <rect x="0" y="35" width="20" height="15" class="file-box exe-file"/>
+    <text x="25" y="46" class="node-text" style="font-size: 9px; text-anchor: start;">可执行文件(.exe)</text>
+    
+    <rect x="140" y="35" width="20" height="15" class="file-box doc-file"/>
+    <text x="165" y="46" class="node-text" style="font-size: 9px; text-anchor: start;">文档文件</text>
+    
+    <rect x="240" y="35" width="20" height="15" class="file-box"/>
+    <text x="265" y="46" class="node-text" style="font-size: 9px; text-anchor: start;">其他文件</text>
+  </g>
+  
+  <!-- 标题 -->
+  <text x="450" y="25" class="node-text" style="font-size: 14px; font-weight: bold;">💻 Windows文件系统目录结构图</text>
+  
+  <!-- 统计信息 -->
+  <g transform="translate(600, 380)">
+    <text x="0" y="0" class="node-text" style="font-size: 10px; text-anchor: start;">📊 文件统计：</text>
+    <text x="0" y="15" class="node-text" style="font-size: 8px; text-anchor: start;">• 文件夹：8个</text>
+    <text x="0" y="28" class="node-text" style="font-size: 8px; text-anchor: start;">• 可执行文件：4个</text>
+    <text x="0" y="41" class="node-text" style="font-size: 8px; text-anchor: start;">• 文档文件：2个</text>
+    <text x="0" y="54" class="node-text" style="font-size: 8px; text-anchor: start;">• 快捷方式：1个</text>
+  </g>
+</svg>
