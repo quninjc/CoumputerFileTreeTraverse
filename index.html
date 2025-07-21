@@ -28,13 +28,24 @@
             </div>
         </div>
 
-        <div class="visualization">
-            <div class="tree-container" id="treeContainer"></div>
-            <div class="traversal-info">
-                <h3>遍历顺序:</h3>
-                <div id="traversalSequence"></div>
-                <div id="currentStep"></div>
+        <div class="double-tree-visualization">
+            <div class="tree-panel">
+                <div class="tree-title">原始文件树</div>
+                <div class="tree-container tree-container-left" id="treeContainerLeft">
+                    <div class="tree-inner" id="treeInnerLeft"></div>
+                </div>
             </div>
+            <div class="tree-panel">
+                <div class="tree-title">复制过程</div>
+                <div class="tree-container tree-container-right" id="treeContainerRight">
+                    <div class="tree-inner" id="treeInnerRight"></div>
+                </div>
+            </div>
+        </div>
+        <div class="traversal-info">
+            <h3>遍历顺序:</h3>
+            <div id="traversalSequence"></div>
+            <div id="currentStep"></div>
         </div>
     </div>
 
