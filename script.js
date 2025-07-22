@@ -104,8 +104,8 @@ class TreeVisualizer {
         this.clearHighlights();
         // 右树显示到当前遍历节点
         if (this.currentStepIndex === -1) {
-            // 初始时显示根节点
-            if (this.rightTree) this.rightTree._show = true;
+            // 初始时右树完全空白
+            this.hideAllNodes(this.rightTree);
         } else {
             this.showRightTreeUpToStep(this.currentStepIndex);
         }
@@ -272,14 +272,14 @@ class TreeVisualizer {
         const leftTreeH = leftBounds.maxY - leftBounds.minY + nodeH;
         const leftCenterX = (leftBounds.maxX + leftBounds.minX) / 2;
         const leftCenterY = (leftBounds.maxY + leftBounds.minY) / 2;
-        const leftOffsetX = this.treeContainerLeft.clientWidth / 2 / leftScale - leftCenterX;
+        const leftOffsetX = this.treeContainerLeft.clientWidth / 2 / leftScale - leftCenterX - 60;
         const leftOffsetY = this.treeContainerLeft.clientHeight / 2 / leftScale - leftCenterY;
         innerLeft.style.transform = `translate(${leftOffsetX}px,${leftOffsetY}px) scale(${leftScale})`;
         const rightTreeW = rightBounds.maxX - rightBounds.minX + nodeW;
         const rightTreeH = rightBounds.maxY - rightBounds.minY + nodeH;
         const rightCenterX = (rightBounds.maxX + rightBounds.minX) / 2;
         const rightCenterY = (rightBounds.maxY + rightBounds.minY) / 2;
-        const rightOffsetX = this.treeContainerRight.clientWidth / 2 / rightScale - rightCenterX;
+        const rightOffsetX = this.treeContainerRight.clientWidth / 2 / rightScale - rightCenterX - 60;
         const rightOffsetY = this.treeContainerRight.clientHeight / 2 / rightScale - rightCenterY;
         innerRight.style.transform = `translate(${rightOffsetX}px,${rightOffsetY}px) scale(${rightScale})`;
         // 绘制
@@ -312,7 +312,7 @@ class TreeVisualizer {
         const treeH = bounds.maxY - bounds.minY + nodeH;
         const scaleW = (containerW - 10) / treeW;
         const scaleH = (containerH - 10) / treeH;
-        return Math.min(1, scaleW, scaleH);
+        return Math.min(0.85, scaleW, scaleH); // 0.85 可根据需要调整
     }
 
     // 建立左右树节点一一映射
