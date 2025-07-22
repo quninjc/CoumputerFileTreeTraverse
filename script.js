@@ -277,12 +277,14 @@ class TreeVisualizer {
         const rightTreeRealW = rightBounds.maxX - rightBounds.minX + nodeW;
         const rightTreeRealH = rightBounds.maxY - rightBounds.minY + nodeH;
         const rightScale = Math.min((this.treeContainerRight.clientWidth - margin) / rightTreeRealW, (this.treeContainerRight.clientHeight - margin) / rightTreeRealH, 1);
-        // 平移量：让树左上角对齐容器左上角加margin/2
+        // 平移量：让树左上角对齐容器左上角加margin/2，并垂直居中
+        const leftExtraY = (this.treeContainerLeft.clientHeight - leftTreeRealH * leftScale) / 2;
         const leftOffsetX = margin / 2 - leftBounds.minX + 30;
-        const leftOffsetY = margin / 2 - leftBounds.minY + 20;
+        const leftOffsetY = margin / 2 - leftBounds.minY + 20 + leftExtraY;
         innerLeft.style.transform = `scale(${leftScale}) translate(${leftOffsetX}px,${leftOffsetY}px)`;
+        const rightExtraY = (this.treeContainerRight.clientHeight - rightTreeRealH * rightScale) / 2;
         const rightOffsetX = margin / 2 - rightBounds.minX + 30;
-        const rightOffsetY = margin / 2 - rightBounds.minY + 20;
+        const rightOffsetY = margin / 2 - rightBounds.minY + 20 + rightExtraY;
         innerRight.style.transform = `scale(${rightScale}) translate(${rightOffsetX}px,${rightOffsetY}px)`;
         // 绘制
         this.drawGeneralTree(this.tree, innerLeft, true);
