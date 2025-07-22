@@ -14,7 +14,14 @@
 
         <div class="controls compact-controls">
             <div class="button-row compact-row">
-                <button id="preOrder" class="traversal-btn">前序遍历（复制文件夹）</button>
+                <select id="treeSelect" class="tree-select">
+                    <option value="snake">贪吃蛇</option>
+                    <option value="minesweeper">扫雷</option>
+                    <option value="tetris">俄罗斯方块</option>
+                    <option value="pushbox">推箱子</option>
+                    <option value="gomoku">五子棋</option>
+                    <option value="cdrive">复制C盘</option>
+                </select>
                 <button id="nextStep" disabled>下一步</button>
                 <button id="playPause" disabled>自动播放</button>
                 <button id="reset" disabled>重置</button>

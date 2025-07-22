@@ -301,18 +301,16 @@ button:disabled {
     border-radius: 6px;
     background: #fff;
     position: relative;
-    overflow: auto;
-    padding: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
 }
 .tree-inner {
     position: absolute;
     left: 0;
     top: 0;
-    width: max-content;
-    height: max-content;
+    width: 100%;
+    height: 100%;
     transform-origin: 0 0;
     will-change: transform;
 }

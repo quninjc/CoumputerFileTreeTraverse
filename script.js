@@ -25,16 +25,16 @@ class TreeVisualizer {
     }
 
     initElements() {
+        this.treeSelect = document.getElementById('treeSelect');
         this.treeContainerLeft = document.getElementById('treeContainerLeft');
         this.treeContainerRight = document.getElementById('treeContainerRight');
         this.traversalSequence = document.getElementById('traversalSequence');
         this.currentStepInfo = document.getElementById('currentStep');
-        this.preOrderBtn = document.getElementById('preOrder');
         this.nextStepBtn = document.getElementById('nextStep');
         this.playPauseBtn = document.getElementById('playPause');
         this.resetBtn = document.getElementById('reset');
         this.speedSlider = document.getElementById('speed');
-        this.traversalBtns = [this.preOrderBtn];
+        this.traversalBtns = [];
     }
 
     // 深拷贝树结构
@@ -45,12 +45,10 @@ class TreeVisualizer {
     }
 
     bindEvents() {
-        this.preOrderBtn.addEventListener('click', () => {
-            this.preOrderBtn.classList.add('active');
+        this.treeSelect.addEventListener('change', (e) => {
+            const key = e.target.value;
+            this.tree = gameTrees[key];
             this.generateTraversalSteps();
-            this.nextStepBtn.disabled = false;
-            this.playPauseBtn.disabled = false;
-            this.resetBtn.disabled = false;
         });
         this.nextStepBtn.addEventListener('click', () => this.nextStep());
         this.playPauseBtn.addEventListener('click', () => this.togglePlayPause());
@@ -75,6 +73,10 @@ class TreeVisualizer {
         this.linkTwinNodes(this.tree, this.rightTree); // 保证节点映射
         this.drawTrees();
         this.highlightCurrentStep();
+        // 保证按钮可用
+        this.nextStepBtn.disabled = false;
+        this.playPauseBtn.disabled = false;
+        this.resetBtn.disabled = false;
     }
 
     // 隐藏右树所有节点
@@ -211,9 +213,10 @@ class TreeVisualizer {
     }
 
     // --- 双树布局与绘制 ---
+    // 智能多叉树布局，递归计算每个节点的布局宽度，避免底层节点重叠
     calculateSubtreeWidth(node) {
         const nodeWidth = 60;
-        const horizontalGap = 32;
+        const horizontalGap = 12; // 节点同层间距更近
         if (!node.children || node.children.length === 0) {
             node._subtreeWidth = nodeWidth;
             return nodeWidth;
@@ -229,8 +232,8 @@ class TreeVisualizer {
 
     assignTreeLayout(node, x, y) {
         const nodeWidth = 60;
-        const horizontalGap = 32;
-        const verticalSpacing = 70;
+        const horizontalGap = 12; // 节点同层间距更近
+        const verticalSpacing = 110; // 层与层间隔更大
         node.x = x;
         node.y = y;
         if (!node.children || node.children.length === 0) return;
@@ -256,32 +259,31 @@ class TreeVisualizer {
         innerRight.innerHTML = '';
         // 左树布局
         this.calculateSubtreeWidth(this.tree);
-        this.assignTreeLayout(this.tree, 0, 0);
+        const leftTreeW = this.tree._subtreeWidth;
+        this.assignTreeLayout(this.tree, leftTreeW / 2, 0);
         // 右树布局
         this.calculateSubtreeWidth(this.rightTree);
-        this.assignTreeLayout(this.rightTree, 0, 0);
+        const rightTreeW = this.rightTree._subtreeWidth;
+        this.assignTreeLayout(this.rightTree, rightTreeW / 2, 0);
         // 计算边界
         const leftBounds = this.getTreeBounds(this.tree);
         const rightBounds = this.getTreeBounds(this.rightTree);
-        // 缩放
-        const leftScale = this.getFitScale(leftBounds, this.treeContainerLeft.clientWidth, this.treeContainerLeft.clientHeight);
-        const rightScale = this.getFitScale(rightBounds, this.treeContainerRight.clientWidth, this.treeContainerRight.clientHeight);
-        // 平移量（让树内容居中）
+        // 缩放比例，保证树完整缩放进红色画框
+        const margin = 10;
         const nodeW = 56, nodeH = 48;
-        const leftTreeW = leftBounds.maxX - leftBounds.minX + nodeW;
-        const leftTreeH = leftBounds.maxY - leftBounds.minY + nodeH;
-        const leftCenterX = (leftBounds.maxX + leftBounds.minX) / 2;
-        const leftCenterY = (leftBounds.maxY + leftBounds.minY) / 2;
-        const leftOffsetX = this.treeContainerLeft.clientWidth / 2 / leftScale - leftCenterX - 60;
-        const leftOffsetY = this.treeContainerLeft.clientHeight / 2 / leftScale - leftCenterY;
-        innerLeft.style.transform = `translate(${leftOffsetX}px,${leftOffsetY}px) scale(${leftScale})`;
-        const rightTreeW = rightBounds.maxX - rightBounds.minX + nodeW;
-        const rightTreeH = rightBounds.maxY - rightBounds.minY + nodeH;
-        const rightCenterX = (rightBounds.maxX + rightBounds.minX) / 2;
-        const rightCenterY = (rightBounds.maxY + rightBounds.minY) / 2;
-        const rightOffsetX = this.treeContainerRight.clientWidth / 2 / rightScale - rightCenterX - 60;
-        const rightOffsetY = this.treeContainerRight.clientHeight / 2 / rightScale - rightCenterY;
-        innerRight.style.transform = `translate(${rightOffsetX}px,${rightOffsetY}px) scale(${rightScale})`;
+        const leftTreeRealW = leftBounds.maxX - leftBounds.minX + nodeW;
+        const leftTreeRealH = leftBounds.maxY - leftBounds.minY + nodeH;
+        const leftScale = Math.min((this.treeContainerLeft.clientWidth - margin) / leftTreeRealW, (this.treeContainerLeft.clientHeight - margin) / leftTreeRealH, 1);
+        const rightTreeRealW = rightBounds.maxX - rightBounds.minX + nodeW;
+        const rightTreeRealH = rightBounds.maxY - rightBounds.minY + nodeH;
+        const rightScale = Math.min((this.treeContainerRight.clientWidth - margin) / rightTreeRealW, (this.treeContainerRight.clientHeight - margin) / rightTreeRealH, 1);
+        // 平移量：让树左上角对齐容器左上角加margin/2
+        const leftOffsetX = margin / 2 - leftBounds.minX + 30;
+        const leftOffsetY = margin / 2 - leftBounds.minY + 20;
+        innerLeft.style.transform = `scale(${leftScale}) translate(${leftOffsetX}px,${leftOffsetY}px)`;
+        const rightOffsetX = margin / 2 - rightBounds.minX + 30;
+        const rightOffsetY = margin / 2 - rightBounds.minY + 20;
+        innerRight.style.transform = `scale(${rightScale}) translate(${rightOffsetX}px,${rightOffsetY}px)`;
         // 绘制
         this.drawGeneralTree(this.tree, innerLeft, true);
         this.drawGeneralTree(this.rightTree, innerRight, false);
@@ -312,7 +314,7 @@ class TreeVisualizer {
         const treeH = bounds.maxY - bounds.minY + nodeH;
         const scaleW = (containerW - 10) / treeW;
         const scaleH = (containerH - 10) / treeH;
-        return Math.min(0.85, scaleW, scaleH); // 0.85 可根据需要调整
+        return Math.min(0.6, scaleW, scaleH); // 0.6 保证再大的树也能完整显示
     }
 
     // 建立左右树节点一一映射
@@ -453,6 +455,224 @@ const fileSystemTree = {
             ]
         }
     ]
+};
+
+// 多个游戏/系统文件夹树结构
+const gameTrees = {
+    snake: {
+        value: '贪吃蛇', type: 'folder', children: [
+            { value: '代码', type: 'folder', children: [
+                { value: 'main.py', type: 'doc' },
+                { value: 'snake.py', type: 'doc' },
+                { value: 'food.py', type: 'doc' },
+                { value: 'utils', type: 'folder', children: [
+                    { value: 'helper.py', type: 'doc' },
+                    { value: 'constants.py', type: 'doc' }
+                ]}
+            ]},
+            { value: '图片', type: 'folder', children: [
+                { value: 'snake', type: 'folder', children: [
+                    { value: 'snake_head.png', type: 'other' },
+                    { value: 'snake_body.png', type: 'other' }
+                ]},
+                { value: 'food.png', type: 'other' },
+                { value: 'bg.jpg', type: 'other' }
+            ]},
+            { value: '音乐', type: 'folder', children: [
+                { value: 'bgm', type: 'folder', children: [
+                    { value: 'bgm.mp3', type: 'other' }
+                ]},
+                { value: 'eat.wav', type: 'other' }
+            ]},
+            { value: '说明文档', type: 'folder', children: [
+                { value: 'README.md', type: 'doc' },
+                { value: 'CHANGELOG.md', type: 'doc' }
+            ]},
+            { value: '配置', type: 'folder', children: [
+                { value: 'config', type: 'folder', children: [
+                    { value: 'config.json', type: 'doc' },
+                    { value: 'env.json', type: 'doc' }
+                ]}
+            ]}
+        ]
+    },
+    minesweeper: {
+        value: '扫雷', type: 'folder', children: [
+            { value: 'src', type: 'folder', children: [
+                { value: 'main.cpp', type: 'doc' },
+                { value: 'game.cpp', type: 'doc' },
+                { value: 'game.h', type: 'doc' },
+                { value: 'logic', type: 'folder', children: [
+                    { value: 'mine_logic.cpp', type: 'doc' },
+                    { value: 'mine_logic.h', type: 'doc' }
+                ]}
+            ]},
+            { value: '资源', type: 'folder', children: [
+                { value: 'mine.png', type: 'other' },
+                { value: 'flag.png', type: 'other' },
+                { value: 'icons', type: 'folder', children: [
+                    { value: 'icon1.png', type: 'other' },
+                    { value: 'icon2.png', type: 'other' }
+                ]}
+            ]},
+            { value: '音乐', type: 'folder', children: [
+                { value: 'win.wav', type: 'other' },
+                { value: 'lose.wav', type: 'other' }
+            ]},
+            { value: 'README.md', type: 'doc' }
+        ]
+    },
+    tetris: {
+        value: '俄罗斯方块', type: 'folder', children: [
+            { value: 'src', type: 'folder', children: [
+                { value: 'main.js', type: 'doc' },
+                { value: 'tetris.js', type: 'doc' },
+                { value: 'blocks', type: 'folder', children: [
+                    { value: 'block_I.js', type: 'doc' },
+                    { value: 'block_O.js', type: 'doc' },
+                    { value: 'block_T.js', type: 'doc' }
+                ]}
+            ]},
+            { value: '图片', type: 'folder', children: [
+                { value: 'block.png', type: 'other' },
+                { value: 'bg', type: 'folder', children: [
+                    { value: 'bg1.jpg', type: 'other' },
+                    { value: 'bg2.jpg', type: 'other' }
+                ]}
+            ]},
+            { value: '音乐', type: 'folder', children: [
+                { value: 'bgm.mp3', type: 'other' },
+                { value: 'rotate.wav', type: 'other' }
+            ]},
+            { value: 'README.md', type: 'doc' }
+        ]
+    },
+    pushbox: {
+        value: '推箱子', type: 'folder', children: [
+            { value: 'src', type: 'folder', children: [
+                { value: 'main.cpp', type: 'doc' },
+                { value: 'level.cpp', type: 'doc' },
+                { value: 'solver', type: 'folder', children: [
+                    { value: 'solver.cpp', type: 'doc' },
+                    { value: 'solver.h', type: 'doc' }
+                ]}
+            ]},
+            { value: '关卡', type: 'folder', children: [
+                { value: 'level1.txt', type: 'doc' },
+                { value: 'level2.txt', type: 'doc' },
+                { value: 'custom', type: 'folder', children: [
+                    { value: 'custom1.txt', type: 'doc' }
+                ]}
+            ]},
+            { value: '图片', type: 'folder', children: [
+                { value: 'box.png', type: 'other' },
+                { value: 'player.png', type: 'other' }
+            ]},
+            { value: 'README.md', type: 'doc' }
+        ]
+    },
+    gomoku: {
+        value: '五子棋', type: 'folder', children: [
+            { value: 'src', type: 'folder', children: [
+                { value: 'main.py', type: 'doc' },
+                { value: 'ai.py', type: 'doc' },
+                { value: 'ai', type: 'folder', children: [
+                    { value: 'ai_core.py', type: 'doc' },
+                    { value: 'ai_utils.py', type: 'doc' }
+                ]}
+            ]},
+            { value: '图片', type: 'folder', children: [
+                { value: 'board.png', type: 'other' },
+                { value: 'pieces', type: 'folder', children: [
+                    { value: 'black.png', type: 'other' },
+                    { value: 'white.png', type: 'other' }
+                ]}
+            ]},
+            { value: 'README.md', type: 'doc' }
+        ]
+    },
+    cdrive: {
+        value: 'C盘',
+        type: 'folder',
+        children: [
+            {
+                value: 'Program Files',
+                type: 'folder',
+                children: [
+                    {
+                        value: 'MS Office',
+                        type: 'folder',
+                        children: [
+                            { value: 'Word.exe', type: 'exe' },
+                            { value: 'Excel.exe', type: 'exe' },
+                            { value: 'Tools', type: 'folder', children: [
+                                { value: 'ToolA.exe', type: 'exe' }
+                            ]}
+                        ]
+                    },
+                    {
+                        value: 'Chrome',
+                        type: 'folder',
+                        children: [
+                            { value: 'chrome.exe', type: 'exe' },
+                            { value: 'Extensions', type: 'folder', children: [
+                                { value: 'ext1.dll', type: 'other' }
+                            ]}
+                        ]
+                    }
+                ]
+            },
+            {
+                value: 'Users',
+                type: 'folder',
+                children: [
+                    {
+                        value: '张同学',
+                        type: 'folder',
+                        children: [
+                            {
+                                value: 'Documents',
+                                type: 'folder',
+                                children: [
+                                    { value: '作业.docx', type: 'doc' },
+                                    { value: '笔记.txt', type: 'doc' },
+                                    { value: 'Notes', type: 'folder', children: [
+                                        { value: 'note1.txt', type: 'doc' }
+                                    ]}
+                                ]
+                            },
+                            {
+                                value: 'Desktop',
+                                type: 'folder',
+                                children: [
+                                    { value: '游戏.lnk', type: 'other' },
+                                    { value: 'Shortcuts', type: 'folder', children: [
+                                        { value: 'shortcut1.lnk', type: 'other' }
+                                    ]}
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                value: 'Windows',
+                type: 'system',
+                children: [
+                    {
+                        value: 'System32',
+                        type: 'system',
+                        children: [
+                            { value: 'notepad.exe', type: 'exe' },
+                            { value: 'drivers', type: 'folder', children: [
+                                { value: 'driver1.sys', type: 'other' }
+                            ]}
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
 };
 
 // 初始化应用
