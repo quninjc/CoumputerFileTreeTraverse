@@ -368,13 +368,22 @@ class TreeVisualizer {
     }
 
     drawNode(node, container, showAll) {
-        console.log('drawNode', node.value, node.x, node.y);
         const nodeElement = document.createElement('div');
         nodeElement.className = 'node file-node ' + (node.type || 'folder');
         nodeElement.innerHTML = `<span class="file-icon">${this.getNodeIcon(node)}</span><span class="file-label">${node.value}</span>`;
         const nodeW = 56, nodeH = 48;
         nodeElement.style.left = (node.x - nodeW / 2) + 'px';
         nodeElement.style.top = (node.y - nodeH / 2) + 'px';
+        // 所有项目统一配色：文件夹黄色，文件蓝色
+        if (node.type === 'folder' || node.type === 'system') {
+            nodeElement.style.backgroundColor = '#ffd93d'; // 黄色
+            nodeElement.style.color = '#2d3436';
+            nodeElement.style.border = '2px solid #f39c12';
+        } else {
+            nodeElement.style.backgroundColor = '#55a3ff'; // 蓝色
+            nodeElement.style.color = '#fff';
+            nodeElement.style.border = '2px solid #2d3436';
+        }
         // 保证每次绘制都移除flash类，防止动画失效
         nodeElement.classList.remove('flash');
         container.appendChild(nodeElement);
@@ -401,12 +410,16 @@ class TreeVisualizer {
 
     getNodeIcon(node) {
         switch (node.type) {
-            case 'folder': return '📁 ';
-            case 'system': return '⚙️ ';
-            case 'exe': return '📝 ';
-            case 'doc': return '📄 ';
-            case 'other': return '🎮 ';
-            default: return '📄 ';
+            case 'folder': return '📁'; // 文件夹
+            case 'system': return '🗂️'; // 系统文件夹
+            case 'exe': return '🛠️'; // 可执行文件
+            case 'doc': return '📄'; // 文档/源代码文件
+            case 'image': return '🌄'; // 图片文件
+            case 'audio': return '🎵'; // 音频文件
+            case 'config': return '🗒️'; // 配置文件
+            case 'shortcut': return '🔗'; // 快捷方式/其它
+            case 'other': return '🔗'; // 其它
+            default: return '��';
         }
     }
 }
@@ -457,7 +470,7 @@ const fileSystemTree = {
                             value: 'Desktop',
                             type: 'folder',
                             children: [
-                                { value: '游戏.lnk', type: 'other' }
+                                { value: '游戏.lnk', type: 'shortcut' }
                             ]
                         }
                     ]
@@ -495,17 +508,17 @@ const gameTrees = {
             ]},
             { value: '图片', type: 'folder', children: [
                 { value: 'snake', type: 'folder', children: [
-                    { value: 'snake_head.png', type: 'other' },
-                    { value: 'snake_body.png', type: 'other' }
+                    { value: 'snake_head.png', type: 'image' },
+                    { value: 'snake_body.png', type: 'image' }
                 ]},
-                { value: 'food.png', type: 'other' },
-                { value: 'bg.jpg', type: 'other' }
+                { value: 'food.png', type: 'image' },
+                { value: 'bg.jpg', type: 'image' }
             ]},
             { value: '音乐', type: 'folder', children: [
                 { value: 'bgm', type: 'folder', children: [
-                    { value: 'bgm.mp3', type: 'other' }
+                    { value: 'bgm.mp3', type: 'audio' }
                 ]},
-                { value: 'eat.wav', type: 'other' }
+                { value: 'eat.wav', type: 'audio' }
             ]},
             { value: '说明文档', type: 'folder', children: [
                 { value: 'README.md', type: 'doc' },
@@ -513,8 +526,8 @@ const gameTrees = {
             ]},
             { value: '配置', type: 'folder', children: [
                 { value: 'config', type: 'folder', children: [
-                    { value: 'config.json', type: 'doc' },
-                    { value: 'env.json', type: 'doc' }
+                    { value: 'config.json', type: 'config' },
+                    { value: 'env.json', type: 'config' }
                 ]}
             ]}
         ]
@@ -531,16 +544,16 @@ const gameTrees = {
                 ]}
             ]},
             { value: '资源', type: 'folder', children: [
-                { value: 'mine.png', type: 'other' },
-                { value: 'flag.png', type: 'other' },
+                { value: 'mine.png', type: 'image' },
+                { value: 'flag.png', type: 'image' },
                 { value: 'icons', type: 'folder', children: [
-                    { value: 'icon1.png', type: 'other' },
-                    { value: 'icon2.png', type: 'other' }
+                    { value: 'icon1.png', type: 'image' },
+                    { value: 'icon2.png', type: 'image' }
                 ]}
             ]},
             { value: '音乐', type: 'folder', children: [
-                { value: 'win.wav', type: 'other' },
-                { value: 'lose.wav', type: 'other' }
+                { value: 'win.wav', type: 'audio' },
+                { value: 'lose.wav', type: 'audio' }
             ]},
             { value: 'README.md', type: 'doc' }
         ]
@@ -557,15 +570,15 @@ const gameTrees = {
                 ]}
             ]},
             { value: '图片', type: 'folder', children: [
-                { value: 'block.png', type: 'other' },
+                { value: 'block.png', type: 'image' },
                 { value: 'bg', type: 'folder', children: [
-                    { value: 'bg1.jpg', type: 'other' },
-                    { value: 'bg2.jpg', type: 'other' }
+                    { value: 'bg1.jpg', type: 'image' },
+                    { value: 'bg2.jpg', type: 'image' }
                 ]}
             ]},
             { value: '音乐', type: 'folder', children: [
-                { value: 'bgm.mp3', type: 'other' },
-                { value: 'rotate.wav', type: 'other' }
+                { value: 'bgm.mp3', type: 'audio' },
+                { value: 'rotate.wav', type: 'audio' }
             ]},
             { value: 'README.md', type: 'doc' }
         ]
@@ -588,8 +601,8 @@ const gameTrees = {
                 ]}
             ]},
             { value: '图片', type: 'folder', children: [
-                { value: 'box.png', type: 'other' },
-                { value: 'player.png', type: 'other' }
+                { value: 'box.png', type: 'image' },
+                { value: 'player.png', type: 'image' }
             ]},
             { value: 'README.md', type: 'doc' }
         ]
@@ -605,10 +618,10 @@ const gameTrees = {
                 ]}
             ]},
             { value: '图片', type: 'folder', children: [
-                { value: 'board.png', type: 'other' },
+                { value: 'board.png', type: 'image' },
                 { value: 'pieces', type: 'folder', children: [
-                    { value: 'black.png', type: 'other' },
-                    { value: 'white.png', type: 'other' }
+                    { value: 'black.png', type: 'image' },
+                    { value: 'white.png', type: 'image' }
                 ]}
             ]},
             { value: 'README.md', type: 'doc' }
@@ -668,9 +681,9 @@ const gameTrees = {
                                 value: 'Desktop',
                                 type: 'folder',
                                 children: [
-                                    { value: '游戏.lnk', type: 'other' },
+                                    { value: '游戏.lnk', type: 'shortcut' },
                                     { value: 'Shortcuts', type: 'folder', children: [
-                                        { value: 'shortcut1.lnk', type: 'other' }
+                                        { value: 'shortcut1.lnk', type: 'shortcut' }
                                     ]}
                                 ]
                             }
