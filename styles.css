@@ -110,7 +110,8 @@ button:disabled {
 .speed-control {
     display: flex;
     align-items: center;
-    margin-left: auto;
+    margin-left: 18px;
+    gap: 6px;
 }
 
 .speed-control label {
@@ -314,4 +315,23 @@ button:disabled {
     height: max-content;
     transform-origin: 0 0;
     will-change: transform;
+}
+.compact-controls {
+    margin-bottom: 18px;
+}
+.button-row.compact-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    padding: 0;
+    margin-bottom: 0;
+}
+.button-row.compact-row button,
+.button-row.compact-row .traversal-btn {
+    margin: 0;
+    min-width: 90px;
+    font-size: 15px;
+    padding: 8px 16px;
 }
