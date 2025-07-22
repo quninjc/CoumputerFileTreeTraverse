@@ -111,11 +111,16 @@ class TreeVisualizer {
         } else {
             this.showRightTreeUpToStep(this.currentStepIndex);
         }
+        // 先移除所有节点的flash类
+        const allNodes = this.treeContainerLeft.querySelectorAll('.node');
+        allNodes.forEach(node => node.classList.remove('flash'));
+        let flashNode = null;
         for (let i = 0; i <= this.currentStepIndex; i++) {
             const step = this.traversalSteps[i];
             if (step && step.node._leftElement) {
                 if (i === this.currentStepIndex) {
                     step.node._leftElement.classList.add('highlighted');
+                    flashNode = step.node._leftElement;
                 } else {
                     step.node._leftElement.classList.add('visited');
                 }
@@ -124,6 +129,14 @@ class TreeVisualizer {
         this.updateTraversalDisplay();
         this.updateCurrentStepInfo();
         this.drawTrees();
+        // 动画必须在DOM渲染后再加flash类
+        if (flashNode) {
+            setTimeout(() => {
+                flashNode.classList.remove('flash'); // 保证每次都能触发
+                void flashNode.offsetWidth;
+                flashNode.classList.add('flash');
+            }, 0);
+        }
     }
 
     // 右树显示到当前遍历节点
@@ -156,11 +169,17 @@ class TreeVisualizer {
             stepElement.style.padding = '5px 10px';
             stepElement.style.margin = '2px';
             stepElement.style.borderRadius = '3px';
-            stepElement.style.backgroundColor = '#e0e0e0';
+            // 根据节点类型设置颜色
+            let bgColor = '#e0e0e0', color = '#333';
             if (index <= this.currentStepIndex) {
-                stepElement.style.backgroundColor = '#4CAF50';
-                stepElement.style.color = 'white';
+                if (step.node.type === 'folder' || step.node.type === 'system') {
+                    bgColor = '#ffd93d'; color = '#2d3436'; // 黄色
+                } else {
+                    bgColor = '#55a3ff'; color = '#fff'; // 蓝色
+                }
             }
+            stepElement.style.backgroundColor = bgColor;
+            stepElement.style.color = color;
             this.traversalSequence.appendChild(stepElement);
         });
     }
@@ -356,6 +375,8 @@ class TreeVisualizer {
         const nodeW = 56, nodeH = 48;
         nodeElement.style.left = (node.x - nodeW / 2) + 'px';
         nodeElement.style.top = (node.y - nodeH / 2) + 'px';
+        // 保证每次绘制都移除flash类，防止动画失效
+        nodeElement.classList.remove('flash');
         container.appendChild(nodeElement);
         if (showAll) node._leftElement = nodeElement;
     }

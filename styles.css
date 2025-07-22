@@ -185,6 +185,19 @@ button:disabled {
     background-color: #2196F3;
 }
 
+.node.flash {
+    animation: flash-glow 0.7s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 0 80px 40px #fffde7, 0 0 32px 16px #fff176, 0 0 0 8px #ffd600, 0 0 0 0 #fff;
+    z-index: 99;
+    transform: scale(1.18);
+}
+@keyframes flash-glow {
+    0% { box-shadow: 0 0 0 0 #fffde7, 0 0 0 0 #fff176, 0 0 0 0 #ffd600, 0 0 0 0 #fff; transform: scale(1); }
+    30% { box-shadow: 0 0 80px 40px #fffde7, 0 0 32px 16px #fff176, 0 0 0 8px #ffd600, 0 0 0 0 #fff; transform: scale(1.18); }
+    60% { box-shadow: 0 0 80px 40px #fffde7, 0 0 32px 16px #fff176, 0 0 0 8px #ffd600, 0 0 0 0 #fff; transform: scale(1.18); }
+    100% { box-shadow: 0 0 0 0 #fffde7, 0 0 0 0 #fff176, 0 0 0 0 #ffd600, 0 0 0 0 #fff; transform: scale(1); }
+}
+
 /* 连接线样式 */
 .edge {
     position: absolute;
