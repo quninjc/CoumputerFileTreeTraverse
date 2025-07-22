@@ -680,10 +680,13 @@ const gameTrees = {
 // 初始化应用
 document.addEventListener('DOMContentLoaded', () => {
     const visualizer = new TreeVisualizer();
-    visualizer.tree = fileSystemTree;
-    visualizer.preOrderBtn.classList.add('active');
+    // 默认展示贪吃蛇
+    visualizer.tree = gameTrees.snake;
     visualizer.generateTraversalSteps();
     visualizer.nextStepBtn.disabled = false;
     visualizer.playPauseBtn.disabled = false;
     visualizer.resetBtn.disabled = false;
+    // 设置下拉框默认选中
+    const treeSelect = document.getElementById('treeSelect');
+    treeSelect.value = 'snake';
 });
